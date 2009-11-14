@@ -2,3 +2,6 @@ Revision history for Perl module Apache2::WebApp::Plugin::Session
 
 0.01 Wed Nov 11 20:03:17 2009
     - original version; created by ExtUtils::ModuleMaker 0.51
+
+0.02 Fri Nov 13 22:34:23 2009
+    - Minor POD updates.

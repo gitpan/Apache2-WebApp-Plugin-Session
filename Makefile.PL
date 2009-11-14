@@ -20,11 +20,12 @@ WriteMakefile(
     VERSION_FROM => 'lib/Apache2/WebApp/Plugin/Session.pm', # finds \$VERSION
     AUTHOR       => 'Marc S. Brooks (mbrooks@cpan.org)',
     PREREQ_PM => {
-        'Apache::Test'     => 0,
-        'Apache2::WebApp'  => 0.01,
-        'Apache::Session'  => 1.86,
-        'Params::Validate' => 0,
-        'Switch'           => 0,
+        'Apache::Test'                    => 0,
+        'Apache2::WebApp'                 => 0.01,
+        'Apache2::WebApp::Plugin::Cookie' => 0.01,
+        'Apache::Session'                 => 1.86,
+        'Params::Validate'                => 0,
+        'Switch'                          => 0,
     },
     clean => {
         FILES => "@{ clean_files() }",

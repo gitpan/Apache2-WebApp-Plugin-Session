@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------------+
 #
-#  Apache2::WebApp::Plugin::Session - Provides session handling methods
+#  Apache2::WebApp::Plugin::Session - Plugin providing session handling methods
 #
 #  DESCRIPTION
 #  An abstract class, which can be used to manage session data across
@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -124,7 +124,7 @@ __END__
 
 =head1 NAME
 
-Apache2::WebApp::Plugin::Session - Provides session handling methods
+Apache2::WebApp::Plugin::Session - Plugin providing session handling methods
 
 =head1 SYNOPSIS
 
@@ -146,7 +146,9 @@ directly.  In order for this plugin to work properly, the following packages
 must be installed:
 
   Apache2::WebApp
+  Apache2::WebApp::Plugin::Cookie
   Apache::Session
+  Params::Validate
   Switch
 
 =head1 INSTALLATION
@@ -217,9 +219,46 @@ Delete an existing session.
 
   $c->plugin('Session')->delete( $c, 'login' );
 
+=head1 EXAMPLE
+
+  package Example;
+
+  sub _default {
+      my ( $self, $c ) = @_;
+
+      my $session_id = $c->plugin('Session')->create( $c, 'login',
+          {
+              username => 'foo',
+              password => 'bar',
+          }
+        );
+
+      $c->plugin('Cookie')->set( $c, {
+          name    => 'login',
+          value   => $session_id,
+          expires => '1h',
+          secure  => 0,
+        });
+
+      $c->plugin('CGI')->redirect( $c, '/app/example/verify' );
+  }
+
+  sub verify {
+      my ( $self, $c ) = @_;
+
+      my $data_ref = $c->plugin('Session')->get( $c, 'login' );
+
+      $c->request->content_type('text/html');
+
+      print $data_ref->{username} . ' - ' . $data_ref->{password};
+  }
+
+  1;
+
 =head1 SEE ALSO
 
-L<Apache2::WebApp>, L<Apache2::WebApp::Plugin>, L<Apache::Session>
+L<Apache2::WebApp>, L<Apache2::WebApp::Plugin>, L<Apache2::WebApp::Plugin::Cookie>, 
+L<Apache::Session>
 
 =head1 AUTHOR
 
