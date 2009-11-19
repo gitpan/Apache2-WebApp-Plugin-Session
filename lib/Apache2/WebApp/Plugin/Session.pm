@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -38,7 +38,7 @@ sub create {
 }
 
 #----------------------------------------------------------------------------+
-# get( \%controller, $name, $id )
+# get( \%controller, $name )
 #
 # Return session data as a hash reference.
 
@@ -136,8 +136,8 @@ Apache2::WebApp::Plugin::Session - Plugin providing session handling methods
 
 =head1 DESCRIPTION
 
-An abstract class, which can be used to manage session data across servers,
-from within a database, or local file using a consistent interface.
+An abstract class that provides common methods for managing session data
+across servers, within a database, or local file.
 
 =head1 PREREQUISITES
 
@@ -187,6 +187,10 @@ Unless it already exists, add the following to your projects I<webapp.conf>
 
 Create a new session.
 
+By default, when a new session is created, a browser cookie is set that contains
+a C<session_id>.  Upon success, this session identifier is returned, which can
+to be used to set a customized session cookie.
+
   my $session_id = $c->plugin('Session')->create( $c, 'login',
       {
           username => 'foo',
@@ -226,21 +230,14 @@ Delete an existing session.
   sub _default {
       my ( $self, $c ) = @_;
 
-      my $session_id = $c->plugin('Session')->create( $c, 'login',
+      $c->plugin('Session')->create( $c, 'login',
           {
               username => 'foo',
               password => 'bar',
           }
         );
 
-      $c->plugin('Cookie')->set( $c, {
-          name    => 'login',
-          value   => $session_id,
-          expires => '1h',
-          secure  => 0,
-        });
-
-      $c->plugin('CGI')->redirect( $c, '/app/example/verify' );
+      $c->plugin('CGI')->redirect( $c, "/app/example/verify" );
   }
 
   sub verify {
