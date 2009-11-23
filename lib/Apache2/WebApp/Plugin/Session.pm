@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.03;
+our $VERSION = 0.04;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -180,6 +180,7 @@ Unless it already exists, add the following to your projects I<webapp.conf>
 
   [session]
   storage_type = file     # options - file | mysql | memcached
+  expires = 1h            # default 24h
 
 =head1 OBJECT METHODS
 

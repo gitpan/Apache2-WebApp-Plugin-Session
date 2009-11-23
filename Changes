@@ -8,3 +8,6 @@ Revision history for Perl module Apache2::WebApp::Plugin::Session
 
 0.03 Wed Nov 18 22:36:08 2009
     - Minor POD additions and updates.
+
+0.04 Sun Nov 22 22:09:21 2009
+    - Added new configuration option for expiring sessions.

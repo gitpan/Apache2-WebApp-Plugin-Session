@@ -53,6 +53,7 @@ CONFIGURATION
 
       [session]
       storage_type = file     # options - file | mysql | memcached
+      expires = 1h            # default 24h
 
 OBJECT METHODS
   create
