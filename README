@@ -111,11 +111,11 @@ EXAMPLE
       sub verify {
           my ( $self, $c ) = @_;
 
-          my $data_ref = $c->plugin('Session')->get( $c, 'login' );
+          my %session = $c->plugin('Session')->get( $c, 'login' );
 
           $c->request->content_type('text/html');
 
-          print $data_ref->{username} . ' - ' . $data_ref->{password};
+          print qq{ $session{username} - $session{password} };
       }
 
       1;

@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name: Apache2::WebApp::Plugin::Session
 abstract: Provides session handling methods.
-version: 0.05
+version: 0.06
 author:
   - Marc S. Brooks <mbrooks@cpan.org>
 license: perl and artistic

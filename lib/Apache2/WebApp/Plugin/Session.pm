@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -244,11 +244,11 @@ Delete an existing session.
   sub verify {
       my ( $self, $c ) = @_;
 
-      my $data_ref = $c->plugin('Session')->get( $c, 'login' );
+      my %session = $c->plugin('Session')->get( $c, 'login' );
 
       $c->request->content_type('text/html');
 
-      print $data_ref->{username} . ' - ' . $data_ref->{password};
+      print $session{username} . ' - ' . $session{password};
   }
 
   1;
