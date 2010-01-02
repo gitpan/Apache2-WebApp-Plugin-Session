@@ -14,4 +14,4 @@ t/conf/extra.last.conf.in
 t/conf/startup.pl.in
 t/conf/webapp.in
 t/TEST.PL
-usr/share/webapp-toolkit/plugin_conf/Session.tt
+usr/share/webapp-toolkit/plugin/conf/Session.tt

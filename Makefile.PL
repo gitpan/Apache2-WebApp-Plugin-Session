@@ -21,8 +21,8 @@ WriteMakefile(
     AUTHOR       => 'Marc S. Brooks (mbrooks@cpan.org)',
     PREREQ_PM => {
         'Apache::Test'                    => 0,
-        'Apache2::WebApp'                 => 0.01,
-        'Apache2::WebApp::Plugin::Cookie' => 0.01,
+        'Apache2::WebApp'                 => 0.21,
+        'Apache2::WebApp::Plugin::Cookie' => 0.04,
         'Apache::Session'                 => 1.86,
         'Params::Validate'                => 0,
         'Switch'                          => 0,
@@ -40,6 +40,6 @@ sub clean_files {
 sub MY::postamble {
 '
 install::
-	cp -rv usr/share/webapp-toolkit/plugin_conf/Session.tt /usr/share/webapp-toolkit/plugin_conf
+	cp -rv usr/share/webapp-toolkit/plugin* /usr/share/webapp-toolkit
 ';
 }
