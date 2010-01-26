@@ -3,9 +3,9 @@
 #  Apache2::WebApp::Plugin::Session - Plugin providing session handling methods
 #
 #  DESCRIPTION
-#  An abstract class, which can be used to manage session data across
-#  servers, from within a database, or local file using a consistent
-#  interface.
+#  An abstract class that provides common methods for managing session data
+#  across servers, within a database, or local file.  Data persistence is
+#  maintained between requests using web browser cookies.
 #
 #  AUTHOR
 #  Marc S. Brooks <mbrooks@cpan.org>
@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.09;
+our $VERSION = 0.10;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -68,6 +68,17 @@ sub update {
     my $self = shift;
     $self->_init_new($_[0]);
     $self->{OBJECT}->update(@_);
+}
+
+#----------------------------------------------------------------------------+
+# id( \%controller, $name )
+#
+# Return the unique identifier for the given session.
+
+sub id {
+    my $self = shift;
+    $self->_init_new($_[0]);
+    $self->{OBJECT}->id(@_);
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  PRIVATE METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -137,7 +148,8 @@ Apache2::WebApp::Plugin::Session - Plugin providing session handling methods
 =head1 DESCRIPTION
 
 An abstract class that provides common methods for managing session data
-across servers, within a database, or local file.
+across servers, within a database, or local file.  Data persistence is
+maintained between requests using web browser cookies.
 
 =head1 PREREQUISITES
 
@@ -163,7 +175,7 @@ From source:
 
 Perl one liner using CPAN.pm:
 
-  perl -MCPAN -e 'install Apache2::WebApp::Plugin::Session'
+  $ perl -MCPAN -e 'install Apache2::WebApp::Plugin::Session'
 
 Use of CPAN.pm in interactive mode:
 
@@ -190,7 +202,7 @@ Create a new session.
 
 By default, when a new session is created, a browser cookie is set that contains
 a C<session_id>.  Upon success, this session identifier is returned, which can
-to be used to set a customized session cookie.
+be used to set a customized session cookie.
 
   my $session_id = $c->plugin('Session')->create( $c, 'login',
       {
@@ -224,6 +236,12 @@ Delete an existing session.
 
   $c->plugin('Session')->delete( $c, 'login' );
 
+=head2 id
+
+Return the unique identifier for a given session.
+
+  my $session_id = $c->plugin('Session')->id( $c, 'login' );
+
 =head1 EXAMPLE
 
   package Example;
@@ -238,17 +256,17 @@ Delete an existing session.
           }
         );
 
-      $c->plugin('CGI')->redirect( $c, "/app/example/verify" );
+      $c->plugin('CGI')->redirect( $c, '/app/example/verify' );
   }
 
   sub verify {
       my ( $self, $c ) = @_;
 
-      my %session = $c->plugin('Session')->get( $c, 'login' );
+      my $data_ref = $c->plugin('Session')->get( $c, 'login' );
 
       $c->request->content_type('text/html');
 
-      print $session{username} . ' - ' . $session{password};
+      print $data_ref->{username} . ' - ' . $data_ref->{password};
   }
 
   1;

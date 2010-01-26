@@ -11,7 +11,8 @@ SYNOPSIS
 
 DESCRIPTION
     An abstract class that provides common methods for managing session data
-    across servers, within a database, or local file.
+    across servers, within a database, or local file. Data persistence is
+    maintained between requests using web browser cookies.
 
 PREREQUISITES
     This package is part of a larger distribution and was NOT intended to be
@@ -35,7 +36,7 @@ INSTALLATION
 
     Perl one liner using CPAN.pm:
 
-      perl -MCPAN -e 'install Apache2::WebApp::Plugin::Session'
+      $ perl -MCPAN -e 'install Apache2::WebApp::Plugin::Session'
 
     Use of CPAN.pm in interactive mode:
 
@@ -61,7 +62,7 @@ OBJECT METHODS
 
     By default, when a new session is created, a browser cookie is set that
     contains a "session_id". Upon success, this session identifier is
-    returned, which can to be used to set a customized session cookie.
+    returned, which can be used to set a customized session cookie.
 
       my $session_id = $c->plugin('Session')->create( $c, 'login',
           {
@@ -92,6 +93,11 @@ OBJECT METHODS
 
       $c->plugin('Session')->delete( $c, 'login' );
 
+  id
+    Return the unique identifier for a given session.
+
+      my $session_id = $c->plugin('Session')->id( $c, 'login' );
+
 EXAMPLE
       package Example;
 
@@ -105,17 +111,17 @@ EXAMPLE
               }
             );
 
-          $c->plugin('CGI')->redirect( $c, "/app/example/verify" );
+          $c->plugin('CGI')->redirect( $c, '/app/example/verify' );
       }
 
       sub verify {
           my ( $self, $c ) = @_;
 
-          my %session = $c->plugin('Session')->get( $c, 'login' );
+          my $data_ref = $c->plugin('Session')->get( $c, 'login' );
 
           $c->request->content_type('text/html');
 
-          print qq{ $session{username} - $session{password} };
+          print $data_ref->{username} . ' - ' . $data_ref->{password};
       }
 
       1;
