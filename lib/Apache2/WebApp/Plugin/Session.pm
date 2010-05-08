@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.10;
+our $VERSION = 0.11;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -179,7 +179,7 @@ Perl one liner using CPAN.pm:
 
 Use of CPAN.pm in interactive mode:
 
-  $> perl -MCPAN -e shell
+  $ perl -MCPAN -e shell
   cpan> install Apache2::WebApp::Plugin::Session
   cpan> quit
 
@@ -213,7 +213,8 @@ be used to set a customized session cookie.
 
 =head2 get
 
-Return session data as a hash reference.
+Takes the cookie unique identifier or session id as arguments.  Returns the 
+session data as a hash reference. 
 
   my $data_ref = $c->plugin('Session')->get( $c, 'login' );
 
@@ -221,7 +222,8 @@ Return session data as a hash reference.
 
 =head2 update
 
-Update existing session data.
+Takes the cookie unique identifier or session id as arguments.  Updates 
+existing session data.
 
   $c->plugin('Session')->update( $c, 'login',
       {
@@ -232,13 +234,14 @@ Update existing session data.
 
 =head2 delete
 
-Delete an existing session.
+Takes the cookie unique identifier or session id as arguments.  Deletes an 
+existing session.
 
   $c->plugin('Session')->delete( $c, 'login' );
 
 =head2 id
 
-Return the unique identifier for a given session.
+Return the cookie unique identifier for a given session.
 
   my $session_id = $c->plugin('Session')->id( $c, 'login' );
 
