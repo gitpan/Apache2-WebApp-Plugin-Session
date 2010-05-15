@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.12;
+our $VERSION = 0.13;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -200,9 +200,9 @@ Unless it already exists, add the following to your projects I<webapp.conf>
 
 Create a new session.
 
-By default, when a new session is created, a browser cookie is set that contains
-a C<session_id>.  Upon success, this session identifier is returned, which can
-be used to set a customized session cookie.
+By default, when a new session is created, a browser cookie is set that contains 
+a C<session_id>.  Upon success, this session identifier is returned, which can 
+also be used to set a customized session cookie.
 
   my $session_id = $c->plugin('Session')->create( $c, 'login',
       {
@@ -218,7 +218,7 @@ session data as a hash reference.
 
   my $data_ref = $c->plugin('Session')->get( $c, 'login' );
 
-  print $data_ref->{username};     # foo is the value
+  print $data_ref->{username};     # outputs 'foo'
 
 =head2 update
 
@@ -269,7 +269,7 @@ Return the cookie unique identifier for a given session.
 
       $c->request->content_type('text/html');
 
-      print $data_ref->{username} . ' - ' . $data_ref->{password};
+      print $data_ref->{username} . ' - ' . $data_ref->{password};     # outputs 'foo-bar'
   }
 
   1;

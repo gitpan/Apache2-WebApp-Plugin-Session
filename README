@@ -62,7 +62,7 @@ OBJECT METHODS
 
     By default, when a new session is created, a browser cookie is set that
     contains a "session_id". Upon success, this session identifier is
-    returned, which can be used to set a customized session cookie.
+    returned, which can also be used to set a customized session cookie.
 
       my $session_id = $c->plugin('Session')->create( $c, 'login',
           {
@@ -76,7 +76,7 @@ OBJECT METHODS
 
       my $data_ref = $c->plugin('Session')->get( $c, 'login' );
 
-      print $data_ref->{username};     # foo is the value
+      print $data_ref->{username};     # outputs 'foo;
 
   update
     Update existing session data.
@@ -121,7 +121,7 @@ EXAMPLE
 
           $c->request->content_type('text/html');
 
-          print $data_ref->{username} . ' - ' . $data_ref->{password};
+          print $data_ref->{username} . ' - ' . $data_ref->{password};     # outputs 'foo-bar'
       }
 
       1;
