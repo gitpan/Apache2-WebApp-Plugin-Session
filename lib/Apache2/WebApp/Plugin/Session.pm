@@ -22,7 +22,7 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.11;
+our $VERSION = 0.12;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
@@ -170,7 +170,7 @@ From source:
   $ tar xfz Apache2-WebApp-Plugin-Session-0.X.X.tar.gz
   $ perl MakeFile.PL PREFIX=~/path/to/custom/dir LIB=~/path/to/custom/lib
   $ make
-  $ make test     <--- Make sure you do this before contacting me
+  $ make test
   $ make install
 
 Perl one liner using CPAN.pm:
