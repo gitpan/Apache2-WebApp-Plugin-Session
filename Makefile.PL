@@ -21,8 +21,8 @@ WriteMakefile(
     AUTHOR       => 'Marc S. Brooks (mbrooks@cpan.org)',
     PREREQ_PM => {
         'Apache::Test'                    => 0,
-        'Apache2::WebApp'                 => 0.21,
-        'Apache2::WebApp::Plugin::Cookie' => 0.04,
+        'Apache2::WebApp'                 => 0.38,
+        'Apache2::WebApp::Plugin::Cookie' => 0.09,
         'Apache::Session'                 => 1.86,
         'Params::Validate'                => 0,
         'Switch'                          => 0,
