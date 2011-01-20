@@ -40,6 +40,6 @@ sub clean_files {
 sub MY::postamble {
 '
 install::
-	cp -rv usr/share/webapp-toolkit/plugin* /usr/share/webapp-toolkit
+	cp -rv usr/share/webapp-toolkit/plugin* $(PREFIX)/share/webapp-toolkit
 ';
 }

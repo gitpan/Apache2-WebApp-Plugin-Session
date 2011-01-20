@@ -7,3 +7,6 @@ Revision history for Perl module Apache2::WebApp::Plugin::Session
     - Updated license field in META.yml to fix 'License Unknown' issue on CPAN
     - Updated PREREQ_PM module versions in Makefile.PL
     - Updated module versions in META.yml requires field.
+
+0.15
+    - Added $(PREFIX) in Makefile.PL to build script template install path.

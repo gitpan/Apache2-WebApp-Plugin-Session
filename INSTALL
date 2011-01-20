@@ -8,7 +8,7 @@ Install this package from source:
 
 Perl one liner using CPAN.pm:
 
-  $perl -MCPAN -e 'install Apache2::WebApp::Plugin::Session'
+  $ perl -MCPAN -e 'install Apache2::WebApp::Plugin::Session'
 
 
 Use of CPAN.pm in interactive mode:
