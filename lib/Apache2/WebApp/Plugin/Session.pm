@@ -22,12 +22,12 @@ use base 'Apache2::WebApp::Plugin';
 use Params::Validate qw( :all );
 use Switch;
 
-our $VERSION = 0.15;
+our $VERSION = 0.16;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~[  OBJECT METHODS  ]~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 #----------------------------------------------------------------------------+
-# create( \%controller, $name, \%data )
+# create(\%controller, $name, \%data)
 #
 # Create a new session.
 
@@ -38,7 +38,7 @@ sub create {
 }
 
 #----------------------------------------------------------------------------+
-# get( \%controller, $name )
+# get(\%controller, $name)
 #
 # Return session data as a hash reference.
 
@@ -49,7 +49,7 @@ sub get {
 }
 
 #----------------------------------------------------------------------------+
-# delete( \%controller, $name )
+# delete(\%controller, $name)
 #
 # Delete an existing session.
 
@@ -60,7 +60,7 @@ sub delete {
 }
 
 #----------------------------------------------------------------------------+
-# update( \%controller, $name, \%data )
+# update(\%controller, $name, \%data)
 #
 # Update existing session data.
 
@@ -71,7 +71,7 @@ sub update {
 }
 
 #----------------------------------------------------------------------------+
-# id( \%controller, $name )
+# id(\%controller, $name)
 #
 # Return the unique identifier for the given session.
 
@@ -89,7 +89,7 @@ sub id {
 # Return a reference of $self to the caller.
 
 sub _init {
-    my ( $self, $params ) = @_;
+    my ($self, $params) = @_;
     return $self;
 }
 
@@ -99,15 +99,15 @@ sub _init {
 # Based on config value for 'storage_type', include the correct sub-class.
 
 sub _init_new {
-    my ( $self, $c )
-      = validate_pos( @_,
+    my ($self, $c)
+      = validate_pos(@_,
           { type => OBJECT  },
           { type => HASHREF }
-          );
+      );
 
     my $package;
 
-    switch ( $c->config->{session_storage_type} ) {
+    switch ($c->config->{session_storage_type}) {
         case /file/      { $package = "Apache2::WebApp::Plugin::Session::File"      }
         case /memcached/ { $package = "Apache2::WebApp::Plugin::Session::Memcached" }
         case /mysql/     { $package = "Apache2::WebApp::Plugin::Session::MySQL"     }
@@ -192,7 +192,7 @@ Unless it already exists, add the following to your projects I<webapp.conf>
 
   [session]
   storage_type = file     # options - file | mysql | memcached
-  expires = 1h            # default 24h
+  expires      = 1h       # default 24h
 
 =head1 OBJECT METHODS
 
@@ -204,7 +204,7 @@ By default, when a new session is created, a browser cookie is set that contains
 a C<session_id>.  Upon success, this session identifier is returned, which can 
 also be used to set a customized session cookie.
 
-  my $session_id = $c->plugin('Session')->create( $c, 'login',
+  my $session_id = $c->plugin('Session')->create($c, 'login',
       {
           username => 'foo',
           password => 'bar',
@@ -216,7 +216,7 @@ also be used to set a customized session cookie.
 Takes the cookie unique identifier or session id as arguments.  Returns the 
 session data as a hash reference. 
 
-  my $data_ref = $c->plugin('Session')->get( $c, 'login' );
+  my $data_ref = $c->plugin('Session')->get($c, 'login');
 
   print $data_ref->{username};     # outputs 'foo'
 
@@ -225,7 +225,7 @@ session data as a hash reference.
 Takes the cookie unique identifier or session id as arguments.  Updates 
 existing session data.
 
-  $c->plugin('Session')->update( $c, 'login',
+  $c->plugin('Session')->update($c, 'login',
       {
           last_login => localtime(time),
           remember   => 1,
@@ -237,42 +237,48 @@ existing session data.
 Takes the cookie unique identifier or session id as arguments.  Deletes an 
 existing session.
 
-  $c->plugin('Session')->delete( $c, 'login' );
+  $c->plugin('Session')->delete($c, 'login');
 
 =head2 id
 
 Return the cookie unique identifier for a given session.
 
-  my $session_id = $c->plugin('Session')->id( $c, 'login' );
+  my $session_id = $c->plugin('Session')->id($c, 'login');
 
 =head1 EXAMPLE
 
   package Example;
 
   sub _default {
-      my ( $self, $c ) = @_;
+      my ($self, $c) = @_;
 
-      $c->plugin('Session')->create( $c, 'login',
+      $c->plugin('Session')->create($c, 'login',
           {
               username => 'foo',
               password => 'bar',
           }
         );
 
-      $c->plugin('CGI')->redirect( $c, '/app/example/verify' );
+      $c->plugin('CGI')->redirect($c, '/app/example/verify');
   }
 
   sub verify {
-      my ( $self, $c ) = @_;
+      my ($self, $c) = @_;
 
-      my $data_ref = $c->plugin('Session')->get( $c, 'login' );
+      my $data_ref = $c->plugin('Session')->get($c, 'login');
 
       $c->request->content_type('text/html');
 
-      print $data_ref->{username} . ' - ' . $data_ref->{password};     # outputs 'foo-bar'
+      print $data_ref->{username} . '-' . $data_ref->{password};     # outputs 'foo-bar'
   }
 
   1;
+
+=head1 SUPPORTED TYPES
+
+Apache2::WebApp::Plugin::Session::File
+Apache2::WebApp::Plugin::Session::Memcached
+Apache2::WebApp::Plugin::Session::MySQL
 
 =head1 SEE ALSO
 

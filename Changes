@@ -10,3 +10,7 @@ Revision history for Perl module Apache2::WebApp::Plugin::Session
 
 0.15
     - Added $(PREFIX) in Makefile.PL to build script template install path.
+
+0.16
+    - Updated POD and README
+    - Updated package Apache2::WebApp minimum version dependencies.

@@ -40,7 +40,7 @@ INSTALLATION
 
     Use of CPAN.pm in interactive mode:
 
-      $> perl -MCPAN -e shell
+      $ perl -MCPAN -e shell
       cpan> install Apache2::WebApp::Plugin::Session
       cpan> quit
 
@@ -54,7 +54,7 @@ CONFIGURATION
 
       [session]
       storage_type = file     # options - file | mysql | memcached
-      expires = 1h            # default 24h
+      expires      = 1h       # default 24h
 
 OBJECT METHODS
   create
@@ -64,7 +64,7 @@ OBJECT METHODS
     contains a "session_id". Upon success, this session identifier is
     returned, which can also be used to set a customized session cookie.
 
-      my $session_id = $c->plugin('Session')->create( $c, 'login',
+      my $session_id = $c->plugin('Session')->create($c, 'login',
           {
               username => 'foo',
               password => 'bar',
@@ -72,16 +72,18 @@ OBJECT METHODS
         );
 
   get
-    Return session data as a hash reference.
+    Takes the cookie unique identifier or session id as arguments. Returns
+    the session data as a hash reference.
 
-      my $data_ref = $c->plugin('Session')->get( $c, 'login' );
+      my $data_ref = $c->plugin('Session')->get($c, 'login');
 
-      print $data_ref->{username};     # outputs 'foo;
+      print $data_ref->{username};     # outputs 'foo'
 
   update
-    Update existing session data.
+    Takes the cookie unique identifier or session id as arguments. Updates
+    existing session data.
 
-      $c->plugin('Session')->update( $c, 'login',
+      $c->plugin('Session')->update($c, 'login',
           {
               last_login => localtime(time),
               remember   => 1,
@@ -89,42 +91,48 @@ OBJECT METHODS
         );
 
   delete
-    Delete an existing session.
+    Takes the cookie unique identifier or session id as arguments. Deletes
+    an existing session.
 
-      $c->plugin('Session')->delete( $c, 'login' );
+      $c->plugin('Session')->delete($c, 'login');
 
   id
-    Return the unique identifier for a given session.
+    Return the cookie unique identifier for a given session.
 
-      my $session_id = $c->plugin('Session')->id( $c, 'login' );
+      my $session_id = $c->plugin('Session')->id($c, 'login');
 
 EXAMPLE
       package Example;
 
       sub _default {
-          my ( $self, $c ) = @_;
+          my ($self, $c) = @_;
 
-          $c->plugin('Session')->create( $c, 'login',
+          $c->plugin('Session')->create($c, 'login',
               {
                   username => 'foo',
                   password => 'bar',
               }
             );
 
-          $c->plugin('CGI')->redirect( $c, '/app/example/verify' );
+          $c->plugin('CGI')->redirect($c, '/app/example/verify');
       }
 
       sub verify {
-          my ( $self, $c ) = @_;
+          my ($self, $c) = @_;
 
-          my $data_ref = $c->plugin('Session')->get( $c, 'login' );
+          my $data_ref = $c->plugin('Session')->get($c, 'login');
 
           $c->request->content_type('text/html');
 
-          print $data_ref->{username} . ' - ' . $data_ref->{password};     # outputs 'foo-bar'
+          print $data_ref->{username} . '-' . $data_ref->{password};     # outputs 'foo-bar'
       }
 
       1;
+
+SUPPORTED TYPES
+    Apache2::WebApp::Plugin::Session::File
+    Apache2::WebApp::Plugin::Session::Memcached
+    Apache2::WebApp::Plugin::Session::MySQL
 
 SEE ALSO
     Apache2::WebApp, Apache2::WebApp::Plugin,
